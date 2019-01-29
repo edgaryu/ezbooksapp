@@ -1,0 +1,17 @@
+extends layout
+
+block content
+   h1 EZBooks
+   p Google Books searcher
+
+   form(method='POST' action='/searchRequest/')
+    div.form-group
+      label(for='title') Title:
+      input#title.form-control(type='text', placeholder='Name of book' name='title_query' required='true' )
+
+      //label(for='query_name') Name:
+      //input#query_name(type='text', placeholder='Enter query here', required='true')
+      button.btn.btn-primary(type='submit') Submit
+
+   hr
+

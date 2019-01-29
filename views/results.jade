@@ -1,0 +1,15 @@
+extends layout
+extends index
+
+block content
+   h1 Results
+   ul
+   each book in bookList
+      li= book.title
+      li= book.author
+      li= book.publisher
+      li
+         a(href=book.infolink, target="_blank", rel="noopener noreferrer") Link
+      li
+         img(src= book.img)
+      hr
