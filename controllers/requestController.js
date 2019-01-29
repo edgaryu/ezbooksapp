@@ -104,7 +104,7 @@ var sanitizeClientQueryInput = function(clientQueryInput) {
  */
 var buildAPIRequest = function(clientQueryInput) {
    var baseUrl = "https://www.googleapis.com/books/v1/volumes?";
-   var myKey = "AIzaSyBHj3jW9DrrJgaGfAVF3-OLiDarvWQUUH8";
+   var myKey = process.env.GOOGLEBOOKS_APIKEY;
 
    // CLient provided input
    var clientOptions = {
