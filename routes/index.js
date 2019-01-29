@@ -4,24 +4,13 @@ var router = express.Router();
 var request_controller = require('../controllers/requestController'); 
 var response_controller = require('../controllers/responseController'); 
 
-/* GET home page. */
+// GET endpoint for Home page
 router.get('/', function(req, res, next) {
-
-  // If invald input, write an error msg
-  if (req && req.invalidInput) {
-    req.invalidInput = false;
-    res.render('index', {message: 'Invalid input'});
-  } else {
-    res.render('index');
-  }
+   res.render('index');
 });
 
-// router.get('/searchRequest/', function(req, res, next) {
-//    console.log('Hi');
-//    console.log(req.body);
 
-// });
-
+// POST endpoint to process search form
 router.post('/', request_controller.performRequest, response_controller.displayBooks);
 
 module.exports = router;
