@@ -1,16 +1,23 @@
 const request = require('request');
 const querystring = require('querystring');
 
+var validator = require('validator');
+
 
 var performRequest = function(req, res, next) {
    // console.log(req.body.title);
 
-   var clientQueryInput = getClientQueryInput((Object.assign({}, req.body)));
-   // var validatedClientQueryInput = validateClientQueryInput(clientQueryInput);
-   // var sanitizedClientQueryInput = sanitizeClientQueryInput(validatedClientQueryInput);
+   var clientQueryInput = String(getClientQueryInput((Object.assign({}, req.body))));
+
+   // If input not valid, send error
+   if (!isValidInput(clientQueryInput)) {
+      handleError(req, res);
+   };
+
+   var sanitizedClientQueryInput = sanitizeClientQueryInput(clientQueryInput);
 
    // Build API query
-   var booksAPIRequest = buildAPIRequest(clientQueryInput);
+   var booksAPIRequest = buildAPIRequest(sanitizedClientQueryInput);
 
    sendBooksAPIRequest(booksAPIRequest, function(err, response, body) {
       if (err) { console.log(err); return; }
@@ -51,17 +58,30 @@ var performRequest = function(req, res, next) {
       // Send booklist to next middleware- responseController.displayBooks
       req.bookList = bookList;
 
-      return next();
+      next();
 
    });
 };
 
 var getClientQueryInput = function(reqBody) {
-   return 'abc';
+   // return 'abc';
 
+   var titleQuery = '';
+   if (reqBody.hasOwnProperty('title_query')) {
+      titleQuery = reqBody.title_query;
+   }
+   return titleQuery;
+};
 
+var isValidInput = function(clientQueryInput) {
+   return !validator.isEmpty(clientQueryInput);
+};
 
+var sanitizeClientQueryInput = function(clientQueryInput) {
+   var queryToSanitize = validator.escape(clientQueryInput);
+   validator.trim(queryToSanitize);
 
+   return queryToSanitize;
 };
 
 var buildAPIRequest = function(clientQueryInput) {
@@ -73,13 +93,15 @@ var buildAPIRequest = function(clientQueryInput) {
    }
 
    var defaultOptions = {
-      'maxResults': 2,
+      'maxResults': 3,
       'key': myKey
    }
 
       // var rurl = 'https://www.googleapis.com/books/v1/volumes?q=flowers+inauthor:keyes&maxResults=10&key=' + myKey;
 
-   var apiQueryURL = baseUrl + querystring.stringify(clientOptions) + '?' + querystring.stringify(defaultOptions);
+   var apiQueryURL = baseUrl + querystring.stringify(clientOptions) + '&' + querystring.stringify(defaultOptions);
+
+   console.log(apiQueryURL);
 
    return apiQueryURL;
 
@@ -87,6 +109,10 @@ var buildAPIRequest = function(clientQueryInput) {
 
 var sendBooksAPIRequest = function(booksAPIRequest, callback) {
    request(booksAPIRequest, callback);
+};
+
+var handleError = function(req, res) {
+   res.redirect('/',);
 };
 
 exports.performRequest = performRequest;

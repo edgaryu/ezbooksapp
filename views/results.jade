@@ -4,6 +4,7 @@ extends index
 block content
    h1 Results
    ul
+   button(onclick="goToIndex(); return false;") Back
    each book in bookList
       li= book.title
       li= book.author
@@ -13,3 +14,9 @@ block content
       li
          img(src= book.img)
       hr
+   script.
+     function goToIndex() {
+       window.location.href = '/'
+     }
+
+

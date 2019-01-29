@@ -6,15 +6,22 @@ var response_controller = require('../controllers/responseController');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+
+  // If invald input, write an error msg
+  if (req && req.invalidInput) {
+    req.invalidInput = false;
+    res.render('index', {message: 'Invalid input'});
+  } else {
+    res.render('index');
+  }
 });
 
 // router.get('/searchRequest/', function(req, res, next) {
-// 	console.log('Hi');
-// 	console.log(req.body);
+//    console.log('Hi');
+//    console.log(req.body);
 
 // });
 
-router.post('/searchRequest', request_controller.performRequest, response_controller.displayBooks);
+router.post('/search', request_controller.performRequest, response_controller.displayBooks);
 
 module.exports = router;
