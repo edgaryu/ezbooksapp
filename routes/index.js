@@ -22,6 +22,6 @@ router.get('/', function(req, res, next) {
 
 // });
 
-router.post('/search', request_controller.performRequest, response_controller.displayBooks);
+router.post('/', request_controller.performRequest, response_controller.displayBooks);
 
 module.exports = router;

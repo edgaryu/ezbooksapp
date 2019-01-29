@@ -1,22 +1,27 @@
 extends layout
 extends index
 
-block content
-   h1 Results
-   ul
-   button(onclick="goToIndex(); return false;") Back
-   each book in bookList
-      li= book.title
-      li= book.author
-      li= book.publisher
-      li
-         a(href=book.infolink, target="_blank", rel="noopener noreferrer") Link
-      li
-         img(src= book.img)
-      hr
-   script.
-     function goToIndex() {
-       window.location.href = '/'
-     }
+block append content
+   .results
+      h1 Results
+      ul
+      each book in bookList
+         .bookdiv
+            .bookImg
+               img(src= book.img)
+            .bookInfo
+               li Title: #{book.title}
+               if book.author
+                  li Author: #{book.author}
+               if book.publisher
+                  li Publisher:  #{book.publisher}
+               if book.infolink
+                  li
+                     a(href=book.infolink, target="_blank", rel="noopener noreferrer") More info
+            
+      script.
+        function goToIndex() {
+          window.location.href = '/'
+        }
 
 

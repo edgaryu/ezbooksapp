@@ -1,8 +1,56 @@
 body {
-  padding: 50px;
+  padding: 20px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+.navbar {
+	padding-bottom: 20px;
+	border-bottom: 1px solid black;
+}
+
+.results {
+	padding-top: 20px;
+}
+
+form input {
+	min-width: 20em;
+	width: 60%;
+	max-width: 45em;
+	margin-right: 15px;
 }
 
 a {
   color: #00B7FF;
+}
+
+.results .bookdiv {
+	border: 1px solid #C0C0C0;
+	margin: 0px 0px 15px 0px;
+	height: 200px;
+}
+
+.results .bookdiv .bookImg{
+	height: 100%;
+	width: 150px;
+	float: left;
+
+}
+
+.results .bookdiv .bookImg img{
+	/*height: 100%;*/
+	/*width: 100%;*/
+	max-width: 100%;
+	max-height: 100%;
+
+}
+
+.results .bookdiv .bookInfo {
+	/*height: 100%;*/
+	float: left;
+	padding: 15px 15px 15px 0px;
+}
+
+.results .bookdiv .bookInfo {
+	list-style: none;
+
 }

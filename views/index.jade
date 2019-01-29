@@ -1,15 +1,14 @@
 extends layout
 
 block content
-   h1 EZBooks
-   p Google Books searcher
+   .navbar
+      h1 EZBooks
+      p A search tool for Google Books
 
-   form(method='POST' action='/search/')
-    div.form-group
-      label(for='title') Title:
-      input#title.form-control(type='text', placeholder='Name of book' name='title_query' required='true' )
+      form(method='POST' action='/')
+       div.form-group
 
-      button.btn.btn-primary(type='submit') Submit
+         input#title.form-control(type='text', placeholder='Name of book' name='title_query' required='true' )
 
-   hr
+         button.btn.btn-primary(type='submit') Submit
 

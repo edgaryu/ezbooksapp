@@ -93,7 +93,7 @@ var buildAPIRequest = function(clientQueryInput) {
    }
 
    var defaultOptions = {
-      'maxResults': 3,
+      'maxResults': 10,
       'key': myKey
    }
 
