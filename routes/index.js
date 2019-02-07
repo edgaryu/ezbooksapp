@@ -6,6 +6,8 @@ var response_controller = require('../controllers/responseController');
 
 // GET endpoint for Home page
 router.get('/', function(req, res, next) {
+
+	console.log(req.session && req.session.error ? res.session.error : '');
    res.render('index');
 });
 

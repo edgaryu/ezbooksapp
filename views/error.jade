@@ -1,6 +1,16 @@
 extends layout
 
 block content
-  h1= message
-  h2= error.status
-  pre #{error.stack}
+   .navbar
+      h1 EZBooks
+      p A search tool for Google Books
+
+      form(method='POST' action='/')
+       div.form-group
+
+         input#title.form-control(type='text', placeholder='Name of book' name='title_query' required='true' )
+
+         button.btn.btn-primary(type='submit') Submit
+
+      p #{errormsg}
+

@@ -2,6 +2,7 @@ const request = require('request');
 const querystring = require('querystring');
 const validator = require('validator');
 
+
 const apiKey = require('../googleBooksKey').googleBooksKey;
 
 
@@ -14,11 +15,20 @@ var performRequest = function(req, res, next) {
    // var sanitizedClientQueryInput;
 
    if (!isValidInput(clientQueryInput)) {
-      handleError(req, res);
+      return handleError(req, res);
    };
 
    // Sanitize the input
    var sanitizedClientQueryInput = sanitizeClientQueryInput(clientQueryInput);
+   console.log('x'+sanitizedClientQueryInput+'x');
+   
+   // If not valid, display error view with error message
+   if (!isValidInput(sanitizedClientQueryInput)) {
+   	console.log('bad input');
+   	// req.session["error"] = 'Invalid input';
+   	res.render('error', {'errormsg': 'Invalid msg'});
+   	return;
+   }
 
    // Build API query
    var booksAPIRequest = buildAPIRequest(sanitizedClientQueryInput);
@@ -96,9 +106,7 @@ var isValidInput = function(clientQueryInput) {
  */
 var sanitizeClientQueryInput = function(clientQueryInput) {
    var queryToSanitize = validator.escape(clientQueryInput);
-   validator.trim(queryToSanitize);
-
-   return queryToSanitize;
+   return validator.trim(queryToSanitize);
 };
 
 /**
@@ -137,7 +145,7 @@ var sendBooksAPIRequest = function(booksAPIRequest, requestCallback) {
 };
 
 var handleError = function(req, res) {
-   res.redirect('/',);
+   return res.redirect('/');
 };
 
 exports.performRequest = performRequest;
