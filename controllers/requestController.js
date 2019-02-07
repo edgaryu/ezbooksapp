@@ -11,8 +11,6 @@ var performRequest = function(req, res, next) {
    var clientQueryInput = String(getClientQueryInput((Object.assign({}, req.body))));
 
    // Check if input is valid
-   // var sanitizedClientQueryInput;
-
    if (!isValidInput(clientQueryInput)) {
       return handleError(req, res);
    };
@@ -37,7 +35,7 @@ var performRequest = function(req, res, next) {
    		res.render('error', {'errormsg': timeOutMsg});
    		return;
    	}
-   	// handle api response errors
+   	// handle api response
       if (response.statusCode !== 200) { 
       	var requestFailedMsg = 'Something happened to the Google Books API. Please try searching again later.';
       	res.render('error', {'errormsg': requestFailedMsg});
