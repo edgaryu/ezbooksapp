@@ -2,6 +2,8 @@ const request = require('request');
 const querystring = require('querystring');
 const validator = require('validator');
 
+const apiKey = require('../googleBooksKey').googleBooksKey;
+
 
 var performRequest = function(req, res, next) {
 
@@ -9,6 +11,8 @@ var performRequest = function(req, res, next) {
    var clientQueryInput = String(getClientQueryInput((Object.assign({}, req.body))));
 
    // Check if input is valid
+   // var sanitizedClientQueryInput;
+
    if (!isValidInput(clientQueryInput)) {
       handleError(req, res);
    };
@@ -104,7 +108,7 @@ var sanitizeClientQueryInput = function(clientQueryInput) {
  */
 var buildAPIRequest = function(clientQueryInput) {
    var baseUrl = "https://www.googleapis.com/books/v1/volumes?";
-   var myKey = process.env.GOOGLEBOOKS_APIKEY;
+   var myKey = process.env.GOOGLEBOOKS_APIKEY || apiKey;
 
    // CLient provided input
    var clientOptions = {
