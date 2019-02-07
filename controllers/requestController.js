@@ -2,7 +2,6 @@ const request = require('request');
 const querystring = require('querystring');
 const validator = require('validator');
 
-
 const apiKey = require('../googleBooksKey').googleBooksKey;
 
 
@@ -20,12 +19,9 @@ var performRequest = function(req, res, next) {
 
    // Sanitize the input
    var sanitizedClientQueryInput = sanitizeClientQueryInput(clientQueryInput);
-   console.log('x'+sanitizedClientQueryInput+'x');
-   
+
    // If not valid, display error view with error message
    if (!isValidInput(sanitizedClientQueryInput)) {
-   	console.log('bad input');
-   	// req.session["error"] = 'Invalid input';
    	res.render('error', {'errormsg': 'Invalid msg'});
    	return;
    }
@@ -35,7 +31,18 @@ var performRequest = function(req, res, next) {
 
    // Send API request to Google Books API
    sendBooksAPIRequest(booksAPIRequest, function(err, response, body) {
-      if (err) { console.log(err); return; }
+   	// handle time out errors
+   	if (err && err.code === "ETIMEDOUT") {
+   		var timeOutMsg = "Request timed out. Please try again later.";
+   		res.render('error', {'errormsg': timeOutMsg});
+   		return;
+   	}
+   	// handle api response errors
+      if (response.statusCode !== 200) { 
+      	var requestFailedMsg = 'Something happened to the Google Books API. Please try searching again later.';
+      	res.render('error', {'errormsg': requestFailedMsg});
+      	return; 
+      }
 
       var result = JSON.parse(body);
       var books = result.items;
@@ -141,7 +148,8 @@ var buildAPIRequest = function(clientQueryInput) {
  * @returns {string} apiQueryURL
  */
 var sendBooksAPIRequest = function(booksAPIRequest, requestCallback) {
-   request(booksAPIRequest, requestCallback);
+	var timeOutLength = 2000;
+   request(booksAPIRequest, {timeout: timeOutLength}, requestCallback);
 };
 
 var handleError = function(req, res) {
