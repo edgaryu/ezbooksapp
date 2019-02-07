@@ -2,7 +2,8 @@ const request = require('request');
 const querystring = require('querystring');
 const validator = require('validator');
 
-const apiKey = require('../googleBooksKey').googleBooksKey;
+// const apiKey;
+// apiKey = require('../googleBooksKey').googleBooksKey;
 
 
 var performRequest = function(req, res, next) {
